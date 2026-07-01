@@ -1,5 +1,8 @@
 package org.example.uberauthservice.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.uberauthservice.dto.AuthRequestDto;
 import org.example.uberauthservice.dto.AuthResponseDto;
@@ -16,10 +19,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/v1/auth")
 @RestController
@@ -45,7 +45,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin/passenger")
-    public ResponseEntity<?> signIn(@RequestBody AuthRequestDto authRequestDto, HttpServletResponse response) {
+    public ResponseEntity<?> signIn(@RequestBody AuthRequestDto authRequestDto, HttpServletRequest request, HttpServletResponse response) {
         System.out.println("Request received " + authRequestDto.getEmail() + " " + authRequestDto.getPassword());
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDto.getEmail(), authRequestDto.getPassword()));
         if(authentication.isAuthenticated()) {
@@ -63,6 +63,17 @@ public class AuthController {
             throw new UsernameNotFoundException("User not found");
         }
     }
+
+    @GetMapping("/validate")
+    public ResponseEntity<?>validate(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("Inside validate controller");
+        for(Cookie cookie : request.getCookies()) {
+            System.out.println(cookie.getName()+"  "+ cookie.getValue());
+        }
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+
 
 }
 
