@@ -1,5 +1,6 @@
 package org.example.uberauthservice.configurations;
 
+import org.example.uberauthservice.filters.JwtAuthFilters;
 import org.example.uberauthservice.services.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -18,8 +20,11 @@ public class SpringSecurity implements WebMvcConfigurer {
 
     private final UserDetailsServiceImpl userDetailsService;
 
-    public SpringSecurity(UserDetailsServiceImpl userDetailsService) {
+    private final JwtAuthFilters jwtAuthFilters;
+
+    public SpringSecurity(UserDetailsServiceImpl userDetailsService, JwtAuthFilters jwtAuthFilters) {
         this.userDetailsService = userDetailsService;
+        this.jwtAuthFilters = jwtAuthFilters;
     }
 
     @Bean
@@ -34,6 +39,7 @@ public class SpringSecurity implements WebMvcConfigurer {
                                 .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilters, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
@@ -53,8 +59,12 @@ public class SpringSecurity implements WebMvcConfigurer {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOriginPatterns("*").allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+        registry.addMapping("/**")
+                .allowCredentials(true)
+                .allowedOriginPatterns("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
     }
 }
