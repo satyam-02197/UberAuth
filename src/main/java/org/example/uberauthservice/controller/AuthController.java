@@ -1,7 +1,6 @@
 package org.example.uberauthservice.controller;
 
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.uberauthservice.dto.AuthRequestDto;

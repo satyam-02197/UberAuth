@@ -1,7 +1,9 @@
 package org.example.uberauthservice.dto;
 
 import lombok.*;
-import org.example.uberauthservice.models.Passenger;
+import org.example.uberentityservice.models.Passenger;
+import org.springframework.security.core.parameters.P;
+
 
 import java.time.LocalDateTime;
 
