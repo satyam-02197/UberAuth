@@ -1,9 +1,7 @@
 package org.example.uberauthservice.dto;
 
 import lombok.*;
-import org.example.uberentityservice.models.Passenger;
-import org.springframework.security.core.parameters.P;
-
+import com.example.uberentityservice.models.Passenger;
 
 import java.time.LocalDateTime;
 
@@ -20,8 +18,6 @@ public class PassengerDto {
 
     private String email;
 
-    private String password; // encrypted password
-
     private String phoneNumber;
 
     private LocalDateTime createdAt;
@@ -31,7 +27,6 @@ public class PassengerDto {
                 .id(passenger.getId().toString())
                 .name(passenger.getName())
                 .email(passenger.getEmail())
-                .password(passenger.getPassword())
                 .phoneNumber(passenger.getPhoneNumber())
                 .createdAt(passenger.getCreatedAt())
                 .build();

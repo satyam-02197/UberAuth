@@ -3,7 +3,7 @@ package org.example.uberauthservice.services;
 import org.example.uberauthservice.helpers.AuthPassengerDetails;
 
 import org.example.uberauthservice.repositories.PassengerRepository;
-import org.example.uberentityservice.models.Passenger;
+import com.example.uberentityservice.models.Passenger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

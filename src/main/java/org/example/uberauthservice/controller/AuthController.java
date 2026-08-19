@@ -1,6 +1,5 @@
 package org.example.uberauthservice.controller;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.uberauthservice.dto.AuthRequestDto;
@@ -45,7 +44,6 @@ public class AuthController {
 
     @PostMapping("/signin/passenger")
     public ResponseEntity<?> signIn(@RequestBody AuthRequestDto authRequestDto, HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("Request received " + authRequestDto.getEmail() + " " + authRequestDto.getPassword());
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDto.getEmail(), authRequestDto.getPassword()));
         if(authentication.isAuthenticated()) {
             String jwtToken = jwtService.createToken(authRequestDto.getEmail());
@@ -65,10 +63,6 @@ public class AuthController {
 
     @GetMapping("/validate")
     public ResponseEntity<?>validate(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("Inside validate controller");
-        for(Cookie cookie : request.getCookies()) {
-            System.out.println(cookie.getName()+"  "+ cookie.getValue());
-        }
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 

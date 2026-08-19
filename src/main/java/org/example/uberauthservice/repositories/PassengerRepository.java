@@ -1,7 +1,7 @@
 package org.example.uberauthservice.repositories;
 
 
-import org.example.uberentityservice.models.Passenger;
+import com.example.uberentityservice.models.Passenger;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
